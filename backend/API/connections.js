@@ -6,7 +6,7 @@ const app = express();
 const client = new Client({
     user: "postgres",
     host : "localhost",
-    database: "mydb", //put db name
-    password: "",  // put your own pass
-    port: 8000
+    database: "annapurna", //put db name
+    password: "123@#post",  // put your own pass
+    port: 5432
 });
