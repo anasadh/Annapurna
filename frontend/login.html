@@ -1,44 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignIn&SignUp</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="loginStyle.css" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* You can style your forms here */
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"],
+        .form-container input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container input[type="submit"] {
+            width: 100%;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 0;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .success-message {
+            text-align: center;
+            color: #4caf50;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+
+    <script>
+        function showSignInForm() {
+            document.getElementById("signUpForm").style.display = "none";
+            document.getElementById("signInForm").style.display = "block";
+        }
+        function showSignUpForm() {
+            document.getElementById("signUpForm").style.display = "block";
+            document.getElementById("signInForm").style.display = "none";
+        }
+
+        function showWelcomeMessage() {
+            var username = document.getElementById("username").value;
+            document.getElementById("signInForm").style.display = "none";
+            document.getElementById("welcomeMessage").innerText = "Welcome, " + username + "!";
+            document.getElementById("welcomeMessage").style.display = "block";
+            return false; // Prevent form submission
+        }
+    </script>
 </head>
+
 <body>
-    <section class="header">
+    <section class="sub-header">
         <nav>
-            <a href="../index.html"><img src="images/Annapurna.png" alt=""></a>
+            <a href="index.html"><img src="Annapurna.png" alt=""></a>
             <div class="nav-links" id="navLinks">
                 <i class="fa fa-times" onclick="hideMenu()"></i>
                 <ul>
                     <li><a href="../index.html">HOME</a></li>
-                    <li><a href="about.html" >ABOUT</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
                     <li><a href="blog.html">DONATE</a></li>
                     <li><a href="course.html">REQUEST</a></li>
                     <li><a href="volunteer.html">VOLUNTEER</a></li>
                     <li><a href="contact.html">CONTACT US</a></li>
-                    <li><a href="login.html">Login/SignUp</a></li>
                 </ul>
             </div>
-            <i class="fa fa-bars" onclick="showMenu()" ></i>
+            <i class="fa fa-bars" onclick="showMenu()"></i>
         </nav>
-        <div class="wrapper">
+    
 
+        <!-- Add space between header and sign-up form -->
+        <div style="height: 100px;"></div>
+
+        <!-- Sign Up Form -->
+        <div class="form-container" id="signUpForm">
+            <h2>Sign Up</h2>
+            <form action="signup.php" method="POST" onsubmit="return showWelcomeMessage()">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <input type="text" name="address" placeholder="Write your address" required>
+                <input type="text" name="phone_num" placeholder="Phone Number" required>
+                <input type="submit" value="Sign Up">
+            </form>
+            <p>Already registered? <a href="#" onclick="showSignInForm()">Sign In</a></p>
         </div>
-        <form action="action_page.php">
-             
-          </form>
-    
-        <!-- <div class="text-box">
-            <h1>HAPPY-TO-HELP</h1>
-            <p> Food and love is what makes the world go round.</p>
-        </div> -->
 
+        <!-- Sign In Form (Initially hidden) -->
+        <div class="form-container" id="signInForm" style="display: none;">
+            <h2>Sign In</h2>
+            <form action="signin.php" method="POST" onsubmit="return showWelcomeMessage()">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Sign In">
+            </form>
+            <p>New user? <a href="#" onclick="showSignUpForm()">Sign Up</a></p>
+        </div>
+
+        <!-- Welcome Message (Initially hidden) -->
+        <div class="success-message" id="welcomeMessage" style="display: none;"></div>
     </section>
-    
-
 </body>
 </html>

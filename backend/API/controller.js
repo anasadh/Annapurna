@@ -3,7 +3,7 @@ const {response} = require("express");
 const express = require("express");
 const app = express();
 
-const client = require("./connections.js");
+const client = require("./connections");
 var bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
