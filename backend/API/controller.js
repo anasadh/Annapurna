@@ -1,29 +1,78 @@
-const {login} = require('./service');
-const {response} = require("express");
-const express = require("express");
-const app = express();
+const express = require("express"); //api
+const bodyParser = require("body-parser"); //api
+const { login, signup } = require("./service.js"); //db
+const client = require("./connections"); //db conn
 
-const client = require("./connections");
-var bodyParser = require("body-parser");
+const app = express(); //api
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //api
 
-app.listen(8040,()=>{
-    console.log("server is now listeing at 8040 port");
-})
 
-client.connect();
-
-app.post('/signup',(req,res)=>{
-    try{
-        const username = req.body.username;
-        const pass = req.body.password;
-        const confirm_pass = req.body.confirm_password;
-        const phone_number = req.body.phone_num;
-        const address = req.body.addrress;
-        console.log(username,pass,confirm_pass,phone_number,address);
-        res.send("api called");
-    }catch(err){
-        res.send(err);
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8080'); // Update this with your frontend URL
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
     }
-})
+    next();
+});
+
+app.listen(8040, () => {
+    console.log("server is now listening at 8040 port");
+}); //api server calling
+
+//client.connect(); //db
+
+app.post('/signup', async(req, res) => {
+    try {
+      //  const { username, email, password, confirm_password, phone_num, address } = req.body;
+
+      const username = req.body.username;
+      const email = req.body.email;
+      const password = req.body.password;
+      const confirm_password = req.body.confirm_password;
+      const phone_num = req.body.phone_num;
+      const address = req.body.address;
+      
+            // Check if passwords match
+            if (password !== confirm_password) {
+                res.status(400).json({message: "password doesnt match"});
+            }
+        console.log("in API:", username, email, password, confirm_password, phone_num, address);
+        //database connectiojn
+    signup(username,email,password,confirm_password,phone_num,address,res);
+         
+        // console.log("s",signUp);
+        //res.send("Signup successful"); // Assuming signup was successful
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: err.message});
+    }
+});
+
+app.post('/login', (req, res) => {
+    try {
+        // const { email, password } = req.body;
+        const email = req.body.email;
+        const password = req.body.password;
+        console.log(email, password);
+        // Call login function from services
+        login(email, password, res);
+        // res.send("logged In successful"); 
+    } catch (err) {
+        res.status(400).json({message: err.message});
+    }
+});
+
+
+
+// Get user by user ID route
+app.get('/getUser/:userId', (req, res) => {
+    try {
+        const userId = req.params.userId;
+        res.send(`got user id ${userId}`);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});

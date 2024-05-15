@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SignIn&SignUp</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" type="text/css" href="loginStyle.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="loginStyle.css" /> -->
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
 
     <style>
@@ -50,6 +50,13 @@
             font-weight: bold;
             margin-top: 20px;
         }
+
+        #messageContainer{
+            color: black;
+        }
+        #messageContainer2{
+            color: black;
+        }
     </style>
 
     <script>
@@ -61,25 +68,116 @@
             document.getElementById("signUpForm").style.display = "block";
             document.getElementById("signInForm").style.display = "none";
         }
+//function to showmessage
 
-        function showWelcomeMessage() {
-            var username = document.getElementById("username").value;
-            document.getElementById("signInForm").style.display = "none";
-            document.getElementById("welcomeMessage").innerText = "Welcome, " + username + "!";
-            document.getElementById("welcomeMessage").style.display = "block";
-            return false; // Prevent form submission
+    function showMessage(message) {
+    console.log("in message")
+            const messageContainer = document.getElementById("messageContainer");
+            messageContainer.innerText = message;
+            messageContainer.style.display = "block";
         }
+
+    function showMessage2(message) {
+    console.log("in message")
+            const messageContainer = document.getElementById("messageContainer2");
+            messageContainer.innerText = message;
+            messageContainer.style.display = "block";
+        }
+
+
+        
+        //signup api integartion
+        document.addEventListener('DOMContentLoaded', function() {
+        let form = document.querySelector('#signUpForm form');
+        form.addEventListener('submit', handleSubmit);
+
+   async function handleSubmit(event) {
+        event.preventDefault();
+        let form_data = new FormData(form);
+        let data = Object.fromEntries(form_data);
+        let form_data_json = JSON.stringify(data);
+        console.log("Form Data:", form_data_json);
+        const response = await fetch('http://localhost:8040/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: form_data_json
+        // }).then(res => res.json()).then(result => console.log(result) ).catch(err => console.log(err));
+        });
+    
+// console.log("my resL:",typeof(===response));
+    if (response.status ==200) {
+            const responseData = await response.json();
+            const message = responseData.message;
+        console.log("message:",message);
+            // Display the response message on the webpage
+            showMessage(message);
+
+       
+        } else {
+            // Handle other status codes if needed
+            console.error("Failed to perform action:", response);
+        }
+    }
+});
+
+
+          //login api integartion
+        document.addEventListener('DOMContentLoaded', function() {
+        let form = document.querySelector('#signInForm form');
+        form.addEventListener('submit', handleSubmit);
+
+        async function handleSubmit(event) {
+        event.preventDefault();
+        let form_data = new FormData(form);
+        let data = Object.fromEntries(form_data);
+        let form_data_json = JSON.stringify(data);
+        console.log("Form Data:", form_data_json);
+        const response = await fetch('http://localhost:8040/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: form_data_json
+        // }).then(res => res.json()).then(result => console.log(result) ).catch(err => console.log(err));
+        });
+    
+// console.log("my resL:",typeof(===response));
+    if (response.status ==200) {
+            const responseData = await response.json();
+            const message = responseData.message;
+        console.log("message:",message);
+            // Display the response message on the webpage
+            showMessage2(message);
+
+       
+        } else {
+            // Handle other status codes if needed
+            const responseData = await response.json();
+            const message = responseData.message;
+            console.log("message:",message);
+            console.error("Failed to perform action:", response);
+            showMessage2(message);
+        }
+    }
+});
+
+
+
     </script>
+
+    
 </head>
 
 <body>
     <section class="sub-header">
         <nav>
-            <a href="index.html"><img src="Annapurna.png" alt=""></a>
+            <a href="index.html"><img src="images/Annapurna.png" alt=""></a>
             <div class="nav-links" id="navLinks">
                 <i class="fa fa-times" onclick="hideMenu()"></i>
                 <ul>
-                    <li><a href="../index.html">HOME</a></li>
+                    <li><a href="index.html">HOME</a></li>
                     <li><a href="about.html">ABOUT</a></li>
                     <li><a href="blog.html">DONATE</a></li>
                     <li><a href="course.html">REQUEST</a></li>
@@ -89,7 +187,6 @@
             </div>
             <i class="fa fa-bars" onclick="showMenu()"></i>
         </nav>
-    
 
         <!-- Add space between header and sign-up form -->
         <div style="height: 100px;"></div>
@@ -97,14 +194,17 @@
         <!-- Sign Up Form -->
         <div class="form-container" id="signUpForm">
             <h2>Sign Up</h2>
-            <form action="signup.php" method="POST" onsubmit="return showWelcomeMessage()">
-                <input type="text" name="username" id="username" placeholder="Username" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-                <input type="text" name="address" placeholder="Write your address" required>
-                <input type="text" name="phone_num" placeholder="Phone Number" required>
+
+            <form >
+                <input type="text" name="username" id="username" placeholder="Username"  class ="form-control" required>
+                <input type="email" name="email" placeholder="Email" class ="form-control"  required>
+                <input type="password" name="password" placeholder="Password" class ="form-control"  required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" class ="form-control"  required>
+                <input type="text" name="address" placeholder="Write your address" class ="form-control"  required>
+                <input type="text" name="phone_num" placeholder="Phone Number" class ="form-control"  required>
                 <input type="submit" value="Sign Up">
+                <div id="messageContainer" style="display: none;"></div>
+
             </form>
             <p>Already registered? <a href="#" onclick="showSignInForm()">Sign In</a></p>
         </div>
@@ -112,10 +212,12 @@
         <!-- Sign In Form (Initially hidden) -->
         <div class="form-container" id="signInForm" style="display: none;">
             <h2>Sign In</h2>
-            <form action="signin.php" method="POST" onsubmit="return showWelcomeMessage()">
+            <form>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Sign In">
+                
+                <div id="messageContainer2" style="display: none;"></div>
             </form>
             <p>New user? <a href="#" onclick="showSignUpForm()">Sign Up</a></p>
         </div>
@@ -125,3 +227,11 @@
     </section>
 </body>
 </html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+1.SignUp and Login api created which is calling db function - done
+2. SignUP API integration - done
+3. LOGIN API integration - done
+4. Redirect to home page after login success
+   -> dont show login/signup tab In nav bar after login in home page
+
+5. Donate API create and connect to db to insert data
+6. getdonateAPI -> show who donated (from which city) and quantity
+7. Request API create and connect to db to insert data
+  -> after submit request form  show list of the requester and show status "pending";
+8. getRequsetdata api -> show request list (city and quantity) and feedback from requester 
+
+//admin functionality
+9. create Admin tab in navbar which will show only when username ="admin" login
+
+getApi for all
+  -> admin tab has 3 tables
+   1st table : Donate table
+   2nd table ; Requester table
+   3rd table: Volunteer table
+	
+10. volunteer functionality: send otp via gmail/phone nu to requester which has requested for food, if deliverd then set status approved in requestr list. 
+(verification logic can be QR code / OTP )
+
+
+apis left
+1.sign up api -done (post)
+2.login api - done (post)
+3. donate api post -
+4. request api post -
+5. volunteer api post -
+6. getDonateData api get -
+7.getRequestData api get - create dropdown for status column "pending", "approve"
+8. get Volunteer api get 
