@@ -1,11 +1,13 @@
 1.SignUp and Login api created which is calling db function - done
 2. SignUP API integration - done
 3. LOGIN API integration - done
-4. Redirect to home page after login success
+4. Redirect to home page after login success (pending)
    -> dont show login/signup tab In nav bar after login in home page
 
-5. Donate API create and connect to db to insert data
-6. getdonateAPI -> show who donated (from which city) and quantity
+5. Donate API create and connect to db to insert data (done)
+    -> fill form and click on submit button should update in donate databse (pending)
+6. getdonateAPI -> show who donated (from which city) and quantity (done)
+
 7. Request API create and connect to db to insert data
   -> after submit request form  show list of the requester and show status "pending";
 8. getRequsetdata api -> show request list (city and quantity) and feedback from requester 
