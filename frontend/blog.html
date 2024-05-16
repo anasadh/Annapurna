@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
 </head>
 <body>
     <section class="sub-header">
@@ -64,6 +65,10 @@
                     <span>Kudasan</span>
                     <span>21</span>
                 </div>
+                <div>
+                    <span>vidisha</span>
+                    <span>43</span>
+                </div>
                
                 <div id="pastDonations">
                     <!-- Donations will be dynamically added here -->
@@ -103,10 +108,11 @@
     navLinks.style.right = "-200px"
     }
     console.log("script is working")
+
     // new code
     // Fetch past donations data from backend API
-    // Fetch past donations data from backend API
-fetch('http://localhost:8040/getDonar')
+
+    fetch('http://localhost:8040/getDonar')
     .then(response => {
         console.log("data fetched");
         console.log(response);
@@ -129,7 +135,8 @@ fetch('http://localhost:8040/getDonar')
             if (data.hasOwnProperty(city)) {
                 const quantity = data[city];
                 const donationElement = document.createElement('div');
-                donationElement.innerHTML = `<span>${city}</span><br><span>${quantity}</span>`;
+                // Wrap each city and quantity pair in its own <div> element
+                donationElement.innerHTML = `<div><span>${city}</span><br><span>${quantity}</span></div>`;
                 pastDonationsElement.appendChild(donationElement);
             }
         }
