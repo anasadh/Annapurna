@@ -52,11 +52,11 @@
                 <h2>Donate Food for Poor People and their Families</h2>
                 <p>Annapurna is a service that provides free and nutritious food to the families of underprivileged people. This is especially important for those who come from nearby states for work and are often poor, as their family members may not have time to take care of themselves or even eat, as they focus on working for their loved ones. By offering free meals, Annapurna helps support these families and alleviate some of their stress during a difficult time.</p>
         
-                <div class="comment-box">
+                <div class="comment-box" id="donateForm">
                     <h3>Submit this form to Donate Food !</h3>
                     <p>Our Team will Contact and Reach you within 1 Hour</p>
                     <br>
-                    <form action="" class="comment-form" id="donateForm">
+                    <form action="" class="comment-form">
                         <p style="color: black; font-weight:400;" >Name
                         <input type="text" placeholder="Enter Name"></p>
                         <p style="color: black; font-weight:400;" >Phone Number
@@ -79,7 +79,7 @@
                 <h3>Past Donations</h3>
                 <div id="pastDonations_heading"> 
                     <span style="margin-left: 20px;">City</span>
-                    <span style="margin-right: 20px;">Quantity</span>
+                    <span style="margin-right: 20px;">Quantity(kg)</span>
                 </div>
                
                 <div id="pastDonations">
@@ -135,38 +135,42 @@
             messageContainer.style.display = "block";
         }
 
-        //donate api integartion
-        document.addEventListener('DOMContentLoaded', function() {
-        let form = document.querySelector('#donateForm form');
-        form.addEventListener('submit', handleSubmit);
+        // Donate API integration
+document.addEventListener('DOMContentLoaded', function() {
+    let form = document.querySelector('#donateForm form');
+    form.addEventListener('submit', handleSubmit);
 
-   async function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         let form_data = new FormData(form);
         let data = Object.fromEntries(form_data);
         let form_data_json = JSON.stringify(data);
         console.log("Form Data:", form_data_json);
-        const response = await fetch('http://localhost:8040/donate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: form_data_json
-        });
-    
-// console.log("my resL:",typeof(===response));
-    if (response.status ==200) {
-            const responseData = await response.json();
-            const message = responseData.message;
-        console.log("message:",message);
-            // Display the response message on the webpage
-            showMessage(message);
-        } else {
-            // Handle other status codes if needed
-            console.error("Failed to perform action:", response);
+        try {
+            const response = await fetch('http://localhost:8040/donate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: form_data_json
+            });
+            if (response.ok) {
+                const responseData = await response.json();
+                const message = responseData.message;
+                console.log("message:", message);
+                // Display the response message on the webpage
+                showMessage(message);
+            } else {
+                console.error("Failed to perform action:", response);
+                showMessage("Failed to submit donation. Please try again later.");
+            }
+        } catch (error) {
+            console.error("Error submitting donation:", error);
+            showMessage("Failed to submit donation. Please try again later.");
         }
     }
 });
+
 
     // Fetch past donations data from backend API
 
