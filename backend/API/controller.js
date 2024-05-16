@@ -1,6 +1,6 @@
 const express = require("express"); //api
 const bodyParser = require("body-parser"); //api
-const { login, signup } = require("./service.js"); //db
+const { login, signup, donate, getDonarData } = require("./service.js"); //db
 const client = require("./connections"); //db conn
 
 const app = express(); //api
@@ -66,8 +66,28 @@ app.post('/login', (req, res) => {
 });
 
 
+// donate POST API
+app.post('/donate', async(req, res) => {
+    try {
+      const username = req.body.username;
+      const phone_num = req.body.phone_num;
+      const food_items = req.body.food_items;
+      const quantity = req.body.quantity;
+      const address = req.body.address;
+      const city = req.body.city;
+      
+    console.log("in API:", username, food_items, quantity, phone_num, address,city);
+    
+    //database connectiojn
+    donate(username,phone_num,food_items, quantity,address,city,res);
+         
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: err.message});
+    }
+});
 
-// Get user by user ID route
+// Get user by user ID route - not used currently
 app.get('/getUser/:userId', (req, res) => {
     try {
         const userId = req.params.userId;
@@ -76,3 +96,15 @@ app.get('/getUser/:userId', (req, res) => {
         res.status(400).send(err.message);
     }
 });
+
+// get donar data API
+app.get('/getDonar', async (req, res) => {
+    try {
+        // calling db function
+      getDonarData(res);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
+
+
