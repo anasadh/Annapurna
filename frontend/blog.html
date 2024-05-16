@@ -64,40 +64,14 @@
                     <span>Kudasan</span>
                     <span>21</span>
                 </div>
-                <div>
-                    <span>Mehsana</span>
-                    <span>28</span>
+               
+                <div id="pastDonations">
+                    <!-- Donations will be dynamically added here -->
                 </div>
-                <div>
-                    <span>Meera Ben Organisation</span>
-                    <span>15</span>
-                </div>
-                <div>
-                    <span>Gandhinagar</span>
-                    <span>34</span>
-                </div>
-                <div>
-                    <span>Vadodara</span>
-                    <span>42</span>
-                </div>
-                <div>
-                    <span>Ahemdabad</span>
-                    <span>22</span>
-                </div>
-                <div>
-                    <span>Surat</span>
-                    <span>30</span>
-                </div>
-                
 
             </div>
         </div>
     </section>
-    
-    
-    
-
-    
     
     
    
@@ -115,16 +89,54 @@
     </section>
 
  
-<!--Java Script-->
-<script>
+
+  <!-- JavaScript code -->
+  <script>
+
+    // old code
     var navLinks = document.getElementById("navLinks");
 
     function showMenu(){
-        navLinks.style.right = "0"
+    navLinks.style.right = "0"
     }
     function hideMenu(){
-        navLinks.style.right = "-200px"
+    navLinks.style.right = "-200px"
     }
+    console.log("script is working")
+    // new code
+    // Fetch past donations data from backend API
+    // Fetch past donations data from backend API
+fetch('http://localhost:8040/getDonar')
+    .then(response => {
+        console.log("data fetched");
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch past donations');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Get the element where past donations will be displayed
+        const pastDonationsElement = document.getElementById('pastDonations');
+        console.log("getdonar api called");
+
+        // Clear existing content in the pastDonationsElement
+        pastDonationsElement.innerHTML = '';
+
+        // Iterate over the aggregated data and create HTML elements to display each donation
+        for (const city in data) {
+            if (data.hasOwnProperty(city)) {
+                const quantity = data[city];
+                const donationElement = document.createElement('div');
+                donationElement.innerHTML = `<span>${city}</span><br><span>${quantity}</span>`;
+                pastDonationsElement.appendChild(donationElement);
+            }
+        }
+
+    })
+    .catch(error => console.error('Error fetching past donations:', error));
+
 </script>
 </body>
 </html>
