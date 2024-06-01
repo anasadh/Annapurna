@@ -25,12 +25,13 @@ getApi for all
 (verification logic can be QR code / OTP )
 
 
-apis left
+apis 
 1.sign up api -done (post)
 2.login api - done (post)
-3. donate api post -
-4. request api post -
-5. volunteer api post -
-6. getDonateData api get -
+apis left
+3. donate api post - done {frontend integration is pending}
+4. request api post - done {frontend integration is pending}
+5. volunteer api post - {How to store images in database?}
+6. getDonateData api get - done {frontend integration is pending}
 7.getRequestData api get - create dropdown for status column "pending", "approve"
 8. get Volunteer api get 

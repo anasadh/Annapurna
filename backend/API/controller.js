@@ -1,6 +1,6 @@
 const express = require("express"); //api
 const bodyParser = require("body-parser"); //api
-const { login, signup, donate, getDonarData } = require("./service.js"); //db
+const { login, signup, donate, getDonarData, receive, volunteer} = require("./service.js"); //db
 const client = require("./connections"); //db conn
 
 const app = express(); //api
@@ -111,3 +111,42 @@ app.get('/getDonar', async (req, res) => {
 });
 
 
+// receiver POST API
+app.post('/receive', async(req, res) => {
+    try {
+      const username = req.body.username;
+      const phone_num = req.body.phone_num;
+      const quantity = req.body.quantity;
+      const address = req.body.address;
+      
+    console.log("in API:", username, quantity, phone_num, address);
+    
+    //database connectiojn
+    // Call receive function from services
+    receive(username,phone_num,address,quantity,res);
+         
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: err.message});
+    }
+});
+
+// volunteer POST API
+app.post('/volunteer', async(req, res) => {
+    try {
+      const username = req.body.username;
+      const phone_num = req.body.phone_num;
+      const quantity = req.body.quantity;
+      const address = req.body.address;
+      
+    console.log("in API:", username, quantity, phone_num, address);
+    
+    //database connectiojn
+    // Call volunteer function from services
+    volunteer(username,phone_num,address,quantity,res);
+         
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: err.message});
+    }
+});
