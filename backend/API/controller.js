@@ -1,6 +1,6 @@
 const express = require("express"); //api
 const bodyParser = require("body-parser"); //api
-const { login, signup, donate, getDonarData, receive, volunteer} = require("./service.js"); //db
+const { login, signup, donate, getDonarData, receive, getNuOfRequests,volunteer} = require("./service.js"); //db
 const client = require("./connections"); //db conn
 
 const app = express(); //api
@@ -94,8 +94,6 @@ app.post('/donate', async(req, res) => {
     try {
       const username = req.body.username;
       const phone_num = req.body.phone_num;
-    //   const phone = phone_num.toString();
-    //   console.log("type of phone "+ typeof(phone));
       const city = req.body.city;
       const quantity = req.body.quantity;
       const food_items = req.body.food_items;
@@ -154,6 +152,17 @@ app.post('/receive', async(req, res) => {
         res.status(400).json({message: err.message});
     }
 });
+
+// get number of receivers/requesters data API
+app.get('/getNuOfRequests', async (req, res) => {
+    try {
+        // calling db function
+      getNuOfRequests(res);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
+
 
 // volunteer POST API
 app.post('/volunteer', async(req, res) => {

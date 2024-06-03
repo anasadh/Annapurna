@@ -11,6 +11,82 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<!--Java Script-->
+<script>
+    var navLinks = document.getElementById("navLinks");
+
+    function showMenu(){
+        navLinks.style.right = "0"
+    }
+    function hideMenu(){
+        navLinks.style.right = "-200px"
+    }
+
+    // Integration of frontend to backend API while filling the form
+
+    //function to showmessage
+    function showMessage(message) {
+    console.log("in message")
+            const messageContainer = document.getElementById("messageContainer");
+            messageContainer.innerText = message;
+            messageContainer.style.display = "block";
+        }
+
+        // Request API integration
+    document.addEventListener('DOMContentLoaded', function() {
+    let form = document.querySelector('#requestForm form');
+    form.addEventListener('submit', handleSubmit);
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        let form_data = new FormData(form);
+        let data = Object.fromEntries(form_data);
+        let form_data_json = JSON.stringify(data);
+        console.log("Form Data:", data);
+        console.log("Form Data:", form_data_json);
+        try {
+            const response = await fetch('http://localhost:8040/receive', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: form_data_json
+            });
+            if (response.ok) {
+                const responseData = await response.json();
+                const message = responseData.message;
+                console.log("message:", message);
+                // Display the response message on the webpage
+                showMessage(message);
+            } else {
+                console.error("Failed to perform action:", response);
+                showMessage("Failed to submit request form. Please try again later.");
+            }
+        } catch (error) {
+            console.error("Error submitting request form:", error);
+            showMessage("Please try again later.");
+        }
+    }
+});
+
+// Fetch number of past requesters from backend API
+fetch('http://localhost:8040/getNuOfRequests')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch number of past requesters');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the HTML elements with the retrieved data
+                document.getElementById('numPastRequesters').textContent = `${data.num_of_requests}`;
+            })
+            .catch(error => console.error('Error fetching number of past requesters:', error));
+   
+
+</script>
+
 </head>
 <body>
     <section class="sub-header">
@@ -48,55 +124,30 @@
                     <br>
                     <form action="" class="comment-form">
                         <p style="color: black; font-weight:400;" >Name</p>
-                        <input type="text" placeholder="Enter Name">
+                        <input type="text" name="username" id="username" placeholder="Enter Name">
                         <p style="color: black; font-weight:400;" >Phone Number</p>
-                        <input type="tel" placeholder="Enter Phone No.">
-                        <!-- <p style="color: black; font-weight:400;" >Organisation Name</p>
-                        <input type="text" placeholder="Enter Name">
-                        <p style="color: black; font-weight:400;" >Organisation Id</p>
-                        <input type="text" placeholder="Enter Name"> -->
+                        <input type="text" name="phone_num" id="phone_num" placeholder="Enter Phone No.">
                         <p style="color: black; font-weight:400;" > Quantity of Food required</p>
-                        <textarea name="" id="" rows="3" placeholder="Food Items you want to Donate"></textarea>
+                        <input type="text" name="quantity" id="quantity" rows="3" placeholder="Food Items you want to Donate"></p>
                         <p style="color: black; font-weight:400;" >Address</p>
-                        <textarea name="" id="" rows="3" placeholder="Enter Your Address"></textarea>
+                        <input type="text" name="address" id="address" rows="3" placeholder="Enter Your Address"></p>
                         <button type="submit" class="hero-btn red-btn">SUBMIT</button>
                         <div id="messageContainer" style="display: none;"></div>
                     </form>
                 </div>
 
             </div>
+            <!-- <div class="blog-right">
+                 <h3>Number of Past Requesters</h3>
+               <p style="align-self: center;"> 1000+ </p>
+                 <h3>Fullfilled Requestes</h3>
+               <p style="align-self: center;"> 900+ </p>
+            </div> -->
             <div class="blog-right">
-                 <h3>Past Donations</h3>
-                <div>
-                    <span>Kudasan</span>
-                    <span>21</span>
-                </div>
-                <div>
-                    <span>Mehsana</span>
-                    <span>28</span>
-                </div>
-                <div>
-                    <span>Meera Ben Organisation</span>
-                    <span>15</span>
-                </div>
-                <div>
-                    <span>Gandhinagar</span>
-                    <span>34</span>
-                </div>
-                <div>
-                    <span>Vadodara</span>
-                    <span>42</span>
-                </div>
-                <div>
-                    <span>Ahemdabad</span>
-                    <span>22</span>
-                </div>
-                <div>
-                    <span>Surat</span>
-                    <span>30</span>
-                </div>
-                
-
+                <h3>Number of Past Requesters</h3>
+                <p id="numPastRequesters" style="align-self: center;">Loading...</p>
+                <h3>Fulfilled Requests</h3>
+                <p id="numFulfilledRequests" style="align-self: center;">Loading...</p>
             </div>
         </div>
     </section>
@@ -115,66 +166,6 @@
         <p>Made with  <i class="fa fa-heart"></i> by MindHackers</p>
     </section>
 
- 
-<!--Java Script-->
-<script>
-    var navLinks = document.getElementById("navLinks");
-
-    function showMenu(){
-        navLinks.style.right = "0"
-    }
-    function hideMenu(){
-        navLinks.style.right = "-200px"
-    }
-
-    // Integration of frontend to backend API while filling the form
-
-    //function to showmessage
-    function showMessage(message) {
-    console.log("in message")
-            const messageContainer = document.getElementById("messageContainer");
-            messageContainer.innerText = message;
-            messageContainer.style.display = "block";
-        }
-
-        // Request API integration
-    document.addEventListener('DOMContentLoaded', function() {
-    let form = document.querySelector('#requestForm form');
-    form.addEventListener('submit', handleSubmit);
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-        let form_data = new FormData(form);
-        let data = Object.fromEntries(form_data);
-        let form_data_json = JSON.stringify(data);
-        console.log("Form Data:", data);
-        console.log("Form Data:", form_data_json);
-        try {
-            const response = await fetch('http://localhost:8040/request', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: form_data_json
-            });
-            if (response.ok) {
-                const responseData = await response.json();
-                const message = responseData.message;
-                console.log("message:", message);
-                // Display the response message on the webpage
-                showMessage(message);
-            } else {
-                console.error("Failed to perform action:", response);
-                showMessage("Failed to submit request form. Please try again later.");
-            }
-        } catch (error) {
-            console.error("Error submitting request form:", error);
-            showMessage("Please try again later.");
-        }
-    }
-});
-
-</script>
 
 </body>
 </html>

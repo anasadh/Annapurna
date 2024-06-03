@@ -122,9 +122,10 @@ const receive = async (username,phone_num,address,quantity, res) => {
     receiver_id++;
     console.log("receiver_id:",receiver_id);
     console.log("db called");
+    console.log("receive function called");
 
     client.query(
-        `INSERT INTO receiver( receiver_id, rec_name, phone_num ,address, quantity) VALUES ( '${receiver_id}', '${username}', '${phone_num}', '${address}', '${quantity}')`,
+        `INSERT INTO receiver( receiver_id, rec_name, phone_num ,quantity,address) VALUES ( '${receiver_id}', '${username}', '${phone_num}', '${quantity}', '${address}')`,
         (err, result) => {
             if (!err) {
                 console.log("r:",result);
@@ -138,4 +139,23 @@ const receive = async (username,phone_num,address,quantity, res) => {
     
     client.end;
 };
-module.exports = { signup, login , donate, getDonarData,receive};
+
+
+// get requests data
+const getNuOfRequests = async(res) => {
+    console.log("db called");
+    try {
+        const result = await client.query(`SELECT COUNT(*) AS num_of_requests FROM receiver`);
+        const num_of_requests = result.rows[0].num_of_requests;
+        console.log("Number of requests:", num_of_requests);
+        return res.status(200).json({ num_of_requests });
+    } catch (err) {
+        console.log("Error:", err);
+        return res.status(400).json({ message: err.message });
+    }
+};
+
+
+
+
+module.exports = { signup, login , donate, getDonarData,receive,getNuOfRequests};
