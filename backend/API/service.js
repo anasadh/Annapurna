@@ -55,17 +55,18 @@ const login = async (email, password, res) => {
 
 // donar api
 let donar_id = 0;
-const donate = async (username,phone_num,food_items, quantity,address, city, res) => {
+const donate = async (username,phone_num,food_items,address, city, quantity,res) => {
     donar_id++;
     console.log("donar_id:",donar_id);
     console.log("db called");
+    console.log("donar function called");
 
     client.query(
-        `INSERT INTO donate( address, phone_num, quantity, food_items, donar_id,name,city) VALUES ( '${address}', '${phone_num}', '${quantity}', '${food_items}', '${donar_id}', '${username}', '${city}')`,
+        `INSERT INTO donate(donar_id,name,city,quantity,food_items,address,phone_num) VALUES ('${donar_id}', '${username}', '${city}','${quantity}','${food_items}','${address}','${phone_num}')`,
         (err, result) => {
             if (!err) {
                 console.log("r:",result);
-                return res.status(200).json({message: "Filled form successfully"}); 
+                return res.status(200).json({message: "donated form Successfully"}); // Assuming signup was successful
             } else {
                 console.log("e:",err);
                 return res.status(400).json({message: err.message});

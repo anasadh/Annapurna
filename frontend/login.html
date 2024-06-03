@@ -82,15 +82,13 @@
             messageContainer.innerText = message;
             messageContainer.style.display = "block";
         }
-
-
         
         //signup api integartion
         document.addEventListener('DOMContentLoaded', function() {
         let form = document.querySelector('#signUpForm form');
         form.addEventListener('submit', handleSubmit);
 
-   async function handleSubmit(event) {
+        async function handleSubmit(event) {
         event.preventDefault();
         let form_data = new FormData(form);
         let data = Object.fromEntries(form_data);

@@ -23,89 +23,6 @@
 }
 
 </style>
-</head>
-<body>
-    <section class="sub-header">
-        <nav>
-            <a href="index.html"><img src="images/Annapurna.png" alt=""></a>
-            <div class="nav-links" id="navLinks">
-                <i class="fa fa-times" onclick="hideMenu()"></i>
-                <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="about.html">ABOUT</a></li>
-                    <li><a href="donate.html">DONATE</a></li>
-                    <li><a href="request.html">REQUEST</a></li>
-                    <li><a href="volunteer.html">VOLUNTEER</a></li>
-                    <li><a href="contact.html">CONTACT US</a></li>
-                </ul>
-            </div>
-            <i class="fa fa-bars" onclick="showMenu()" ></i>
-        </nav>
-    
-        <h1>Donate Food</h1>
-    </section>
-    <!-----donate page content------>
-    <section class="blog-content">
-        <div class="row">
-            <div class="blog-left">
-                <!-- <img src="eduford_img/certificate.jpg" alt=""> -->
-                <h2>Donate Food for Poor People and their Families</h2>
-                <p>Annapurna is a service that provides free and nutritious food to the families of underprivileged people. This is especially important for those who come from nearby states for work and are often poor, as their family members may not have time to take care of themselves or even eat, as they focus on working for their loved ones. By offering free meals, Annapurna helps support these families and alleviate some of their stress during a difficult time.</p>
-        
-                <div class="comment-box" id="donateForm">
-                    <h3>Submit this form to Donate Food !</h3>
-                    <p>Our Team will Contact and Reach you within 1 Hour</p>
-                    <br>
-                    <form action="" class="comment-form">
-                        <p style="color: black; font-weight:400;" >Name
-                        <input type="text" placeholder="Enter Name"></p>
-                        <p style="color: black; font-weight:400;" >Phone Number
-                        <input type="tel" placeholder="Enter Phone No."></p>
-                        <p style="color: black; font-weight:400;" >City
-                        <input type="text" placeholder="Write your city name"></p>
-                        <p style="color: black; font-weight:400;" >Quantity
-                        <input type="number" placeholder="Write Quantity of total food in kg"></p>
-                        <p style="color: black; font-weight:400;" >Food Items
-                        <textarea name="" id="" rows="3" placeholder="Write the name of food items that you want to donate"></textarea></p>
-                        <p style="color: black; font-weight:400;" >Address
-                        <textarea name="" id="" rows="3" placeholder="Enter Your Address"></textarea></p>
-                        <button type="submit" class="hero-btn red-btn">SUBMIT</button>
-                        <div id="messageContainer" style="display: none;"></div>
-                    </form>
-                </div>
-
-            </div>
-            <div class="blog-right">
-                <h3>Past Donations</h3>
-                <div id="pastDonations_heading"> 
-                    <span style="margin-left: 20px;">City</span>
-                    <span style="margin-right: 20px;">Quantity(kg)</span>
-                </div>
-               
-                <div id="pastDonations">
-                    <!-- Donations will be dynamically added here -->
-                </div>
-
-            </div>
-        </div>
-    </section>
-    
-    
-   
-    <!------Footer------->
-    <section class="footer">
-        <h4>About Us</h4>
-        <p>We are a team of thoughtful people ready to help everyone we can</p>
-        <di class="icons">
-            <i class="fa fa-facebook"></i>
-            <i class="fa fa-twitter"></i>
-            <i class="fa fa-instagram" aria-hidden="true"></i>
-            <i class="fa fa-linkedin"></i>
-        </di>
-        <p>Made with  <i class="fa fa-heart"></i> by MindHackers</p>
-    </section>
-
- 
 
   <!-- JavaScript code -->
   <script>
@@ -136,8 +53,9 @@
         }
 
         // Donate API integration
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     let form = document.querySelector('#donateForm form');
+    console.log("donate form" + form);
     form.addEventListener('submit', handleSubmit);
 
     async function handleSubmit(event) {
@@ -145,7 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let form_data = new FormData(form);
         let data = Object.fromEntries(form_data);
         let form_data_json = JSON.stringify(data);
+        console.log("Form Data:", data);
         console.log("Form Data:", form_data_json);
+
         try {
             const response = await fetch('http://localhost:8040/donate', {
                 method: 'POST',
@@ -166,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error("Error submitting donation:", error);
-            showMessage("Failed to submit donation. Please try again later.");
+            showMessage("Please try again later.");
         }
     }
 });
@@ -207,5 +127,108 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(error => console.error('Error fetching past donations:', error));
 
 </script>
+
+</head>
+<body>
+    <section class="sub-header">
+        <nav>
+            <a href="index.html"><img src="images/Annapurna.png" alt=""></a>
+            <div class="nav-links" id="navLinks">
+                <i class="fa fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="donate.html">DONATE</a></li>
+                    <li><a href="request.html">REQUEST</a></li>
+                    <li><a href="volunteer.html">VOLUNTEER</a></li>
+                    <li><a href="contact.html">CONTACT US</a></li>
+                </ul>
+            </div>
+            <i class="fa fa-bars" onclick="showMenu()" ></i>
+        </nav>
+    
+        <h1>Donate Food</h1>
+    </section>
+    <!-----donate page content------>
+    <section class="blog-content">
+        <div class="row">
+            <div class="blog-left">
+                <!-- <img src="eduford_img/certificate.jpg" alt=""> -->
+                <h2>Donate Food for Poor People and their Families</h2>
+                <p>Annapurna is a service that provides free and nutritious food to the families of underprivileged people. This is especially important for those who come from nearby states for work and are often poor, as their family members may not have time to take care of themselves or even eat, as they focus on working for their loved ones. By offering free meals, Annapurna helps support these families and alleviate some of their stress during a difficult time.</p>
+                
+                <div class="comment-box" id="donateForm">
+                    <h3>Submit this form to Donate Food !</h3>
+                    <p>Our Team will Contact and Reach you within 1 Hour</p>
+                    <br>
+                    <!-- <form action="" class="comment-form">
+                        <p style="color: black; font-weight:400;" >Name
+                        <input type="text" id="username" placeholder="Enter Name"></p>
+                        <p style="color: black; font-weight:400;" >Phone Number
+                        <input type="tel" id="phone_num" placeholder="Enter Phone No."></p>
+                        <p style="color: black; font-weight:400;" >City
+                        <input type="text" id="city" placeholder="Write your city name"></p>
+                        <p style="color: black; font-weight:400;" >Quantity
+                        <input type="number" id="quantity" placeholder="Write Quantity of total food in kg"></p>
+                        <p style="color: black; font-weight:400;" >Food Items
+                        <textarea name="" id="food_items" rows="3" placeholder="Write the name of food items that you want to donate"></textarea></p>
+                        <p style="color: black; font-weight:400;" >Address
+                        <textarea name="" id="address" rows="3" placeholder="Enter Your Address"></textarea></p>
+                        <button type="submit" class="hero-btn red-btn">SUBMIT</button>
+                        <div id="messageContainer" style="display: none;"></div>
+                    </form> -->
+                    
+                    <form >
+                        <p style="color: black; font-weight:400;" >Name
+                        <input type="text" name="username" id="username" placeholder="Enter name" required>
+                        <p style="color: black; font-weight:400;" >Phone Number
+                        <input type="text" name="phone_num" id="phone_num" placeholder="phone number" required>
+                        <p style="color: black; font-weight:400;" >City
+                        <input type="text" name="city" id="city" placeholder="city" required>
+                        <p style="color: black; font-weight:400;" >Quantity
+                        <input type="integer" name="quantity" id="quantity" placeholder="quantity" required>
+                        <p style="color: black; font-weight:400;" >Food Items
+                        <input type="text" name="food_items" id="food_items" placeholder="Write your food items" required>
+                        <p style="color: black; font-weight:400;" >Address
+                        <input type="text" name="address" id="address" placeholder="address" required>
+                        <input type="submit" value="Sign Up">
+                        <div id="messageContainer" style="display: none;"></div>
+                    </form>
+
+                </div>
+
+            </div>
+            <div class="blog-right">
+                <h3>Past Donations</h3>
+                <div id="pastDonations_heading"> 
+                    <span style="margin-left: 20px;">City</span>
+                    <span style="margin-right: 20px;">Quantity(kg)</span>
+                </div>
+               
+                <div id="pastDonations">
+                    <!-- Donations will be dynamically added here -->
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    
+   
+    <!------Footer------->
+    <section class="footer">
+        <h4>About Us</h4>
+        <p>We are a team of thoughtful people ready to help everyone we can</p>
+        <di class="icons">
+            <i class="fa fa-facebook"></i>
+            <i class="fa fa-twitter"></i>
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+            <i class="fa fa-linkedin"></i>
+        </di>
+        <p>Made with  <i class="fa fa-heart"></i> by MindHackers</p>
+    </section>
+
+
+
 </body>
 </html>

@@ -7,8 +7,17 @@ const app = express(); //api
 
 app.use(bodyParser.json()); //api
 
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080'); // Update to match your frontend URL
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     if (req.method === 'OPTIONS') {
+//         return res.sendStatus(200);
+//     }
+//     next();
+// });
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080'); // Update to match your frontend URL
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8080');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     if (req.method === 'OPTIONS') {
@@ -16,6 +25,18 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://192.168.125.165:8080'); // Update to match your frontend URL
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     if (req.method === 'OPTIONS') {
+//         return res.sendStatus(200);
+//     }
+//     next();
+// });
+
 
 
 app.listen(8040, () => {
@@ -68,26 +89,29 @@ app.post('/login', (req, res) => {
 
 // donate POST API
 app.post('/donate', async(req, res) => {
+    console.log("donate API called");
+
     try {
       const username = req.body.username;
       const phone_num = req.body.phone_num;
-      const food_items = req.body.food_items;
-      const quantity = req.body.quantity;
-      const address = req.body.address;
+    //   const phone = phone_num.toString();
+    //   console.log("type of phone "+ typeof(phone));
       const city = req.body.city;
+      const quantity = req.body.quantity;
+      const food_items = req.body.food_items;
+      const address = req.body.address;
       
     console.log("in API:", username, food_items, quantity, phone_num, address,city);
     
     //database connectiojn
     // Call donate function from services
-    donate(username,phone_num,food_items, quantity,address,city,res);
+    donate(username,phone_num,food_items,address,city,quantity,res);
          
     } catch (err) {
         console.log(err);
         res.status(400).json({message: err.message});
     }
 });
-
 
 
 // Get user by user ID route - not used currently
