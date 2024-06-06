@@ -54,27 +54,59 @@ const login = async (email, password, res) => {
 };
 
 // donar api
-let donar_id = 0;
-const donate = async (username,phone_num,food_items,address, city, quantity,res) => {
-    donar_id++;
-    console.log("donar_id:",donar_id);
-    console.log("db called");
-    console.log("donar function called");
+// let donar_id = 0;
+// const donate = async (username,phone_num,food_items,address, city, quantity,res) => {
+//     donar_id++;
+//     console.log("donar_id:",donar_id);
+//     console.log("db called");
+//     console.log("donar function called");
 
+//     client.query(
+//         `INSERT INTO donate(donar_id,name,city,quantity,food_items,address,phone_num) VALUES ('${donar_id}', '${username}', '${city}','${quantity}','${food_items}','${address}','${phone_num}')`,
+//         (err, result) => {
+//             if (!err) {
+//                 console.log("r:",result);
+//                 return res.status(200).json({message: "donated form Successfully"}); // Assuming signup was successful
+//             } else {
+//                 console.log("e:",err);
+//                 return res.status(400).json({message: err.message});
+//             }
+//         }
+//     );
+    
+//     client.end;
+// };
+// Donar API function
+const donate = async (username, phone_num, food_items, address, city, quantity, res) => {
+    // Fetch the last donar_id from the database
     client.query(
-        `INSERT INTO donate(donar_id,name,city,quantity,food_items,address,phone_num) VALUES ('${donar_id}', '${username}', '${city}','${quantity}','${food_items}','${address}','${phone_num}')`,
+        `SELECT MAX(donar_id) AS max_donar_id FROM donate`,
         (err, result) => {
             if (!err) {
-                console.log("r:",result);
-                return res.status(200).json({message: "donated form Successfully"}); // Assuming signup was successful
+                // Get the maximum donar_id
+                const maxDonarId = result.rows[0].max_donar_id || 0;
+                // Increment the max donar_id to generate the new donar_id
+                const newDonarId = maxDonarId + 1;
+
+                // Insert the new data with the new donar_id
+                client.query(
+                    `INSERT INTO donate(donar_id, name, city, quantity, food_items, address, phone_num) VALUES ('${newDonarId}', '${username}', '${city}', '${quantity}', '${food_items}', '${address}', '${phone_num}')`,
+                    (err, result) => {
+                        if (!err) {
+                            console.log("Donated form Successfully");
+                            return res.status(200).json({ message: "Donated form Successfully" });
+                        } else {
+                            console.log("Error:", err.message);
+                            return res.status(400).json({ message: err.message });
+                        }
+                    }
+                );
             } else {
-                console.log("e:",err);
-                return res.status(400).json({message: err.message});
+                console.log("Error:", err.message);
+                return res.status(400).json({ message: err.message });
             }
         }
     );
-    
-    client.end;
 };
 
 
@@ -117,28 +149,39 @@ const getDonarData = async(res) => {
 
 
 // Receiver api function
-let receiver_id = 0;
-const receive = async (username,phone_num,address,quantity, res) => {
-    receiver_id++;
-    console.log("receiver_id:",receiver_id);
-    console.log("db called");
-    console.log("receive function called");
-
+const receive = async (username, phone_num, address, quantity, res) => {
+    // Fetch the last receiver_id from the database
     client.query(
-        `INSERT INTO receiver( receiver_id, rec_name, phone_num ,quantity,address) VALUES ( '${receiver_id}', '${username}', '${phone_num}', '${quantity}', '${address}')`,
+        `SELECT MAX(receiver_id) AS max_receiver_id FROM receiver`,
         (err, result) => {
             if (!err) {
-                console.log("r:",result);
-                return res.status(200).json({message: "Filled form successfully"}); 
+                // Get the maximum receiver_id
+                const maxReceiverId = result.rows[0].max_receiver_id || 0;
+                // Increment the max receiver_id to generate the new receiver_id
+                const newReceiverId = maxReceiverId + 1;
+
+                // Insert the new data with the new receiver_id
+                client.query(
+                    `INSERT INTO receiver(receiver_id, rec_name, phone_num, quantity, address) VALUES ('${newReceiverId}', '${username}', '${phone_num}', '${quantity}', '${address}')`,
+                    (err, result) => {
+                        if (!err) {
+                            console.log("Filled form successfully");
+                            return res.status(200).json({ message: "Filled form successfully" });
+                        } else {
+                            console.log("Error:", err.message);
+                            return res.status(400).json({ message: err.message });
+                        }
+                    }
+                );
             } else {
-                console.log("e:",err);
-                return res.status(400).json({message: err.message});
+                console.log("Error:", err.message);
+                return res.status(400).json({ message: err.message });
             }
         }
     );
-    
-    client.end;
 };
+
+
 
 
 // get requests data
@@ -156,6 +199,28 @@ const getNuOfRequests = async(res) => {
 };
 
 
+// Volunteer api function
+let volunteer_id = 0;
+const volunteer = async (username,phone_num,email, id_type, id_proof, address, res) => {
+    volunteer_id++;
+    console.log("volunteer_id:",volunteer_id);
+    console.log("db called");
+    console.log("volunteer function called");
 
+    client.query(
+        `INSERT INTO volunteer_id( volunteer_id, volunteer_name, phone_num ,email, id_type, id_proof, address) VALUES ( '${volunteer_id}', '${username}', '${phone_num}', '${email}', '${id_type}', '${id_proof}', '${address}')`,
+        (err, result) => {
+            if (!err) {
+                console.log("r:",result);
+                return res.status(200).json({message: "Filled form successfully"}); 
+            } else {
+                console.log("e:",err);
+                return res.status(400).json({message: err.message});
+            }
+        }
+    );
+    
+    client.end;
+};
 
-module.exports = { signup, login , donate, getDonarData,receive,getNuOfRequests};
+module.exports = { signup, login , donate, getDonarData,receive,getNuOfRequests,volunteer};

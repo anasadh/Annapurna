@@ -1,9 +1,16 @@
 const express = require("express"); //api
 const bodyParser = require("body-parser"); //api
+const multer = require('multer'); // for handling image
 const { login, signup, donate, getDonarData, receive, getNuOfRequests,volunteer} = require("./service.js"); //db
 const client = require("./connections"); //db conn
 
 const app = express(); //api
+
+
+// Configure Multer to handle file uploads
+const upload = multer({ dest: 'uploads/' });
+// const upload = multer({ dest: 'volunteer/' });
+
 
 app.use(bodyParser.json()); //api
 
@@ -165,21 +172,39 @@ app.get('/getNuOfRequests', async (req, res) => {
 
 
 // volunteer POST API
-app.post('/volunteer', async(req, res) => {
+app.post('/volunteer', upload.single('id_proof'), async (req, res) => {
     try {
-      const username = req.body.username;
-      const phone_num = req.body.phone_num;
-      const quantity = req.body.quantity;
-      const address = req.body.address;
-      
-    console.log("in API:", username, quantity, phone_num, address);
-    
-    //database connectiojn
-    // Call volunteer function from services
-    volunteer(username,phone_num,address,quantity,res);
-         
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({message: err.message});
+
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
     }
-});
+    
+    //   const username = req.body.username;
+    //   const phone_num = req.body.phone_num;
+    //   const email = req.body.email;
+    //   const id_type = req.body.id_type;
+    //   const id_proof = req.file; // assuming you're using multer for file uploads
+    //   const address = req.body.address;
+    
+    //   console.log("in API:", username, phone_num, email, id_type, id_proof, address);
+
+    const { username, phone_num, email, id_type, address } = req.body;
+    const id_proof = req.file;
+    console.log("username : "  + req.body.username);
+    console.log("in API:", username, phone_num, email, id_type, id_proof, address); 
+
+      // Read the image file as a buffer
+      const id_proof_buffer = id_proof.buffer;
+  
+      // Convert the buffer to a bytea format
+      const id_proof_bytea = `\\x${id_proof_buffer.toString('hex')}`;
+  
+      // database connection
+      // Call volunteer function from services
+      volunteer(username, phone_num, email, id_type, id_proof_bytea, address, res);
+  
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ message: err.message });
+    }
+  });
