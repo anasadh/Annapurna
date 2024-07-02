@@ -200,27 +200,61 @@ const getNuOfRequests = async(res) => {
 
 
 // Volunteer api function
-let volunteer_id = 0;
-const volunteer = async (username,phone_num,email, id_type, id_proof, address, res) => {
-    volunteer_id++;
-    console.log("volunteer_id:",volunteer_id);
-    console.log("db called");
-    console.log("volunteer function called");
+// const volunteer = async (username,phone_num,email, address,id_type,id_proof, res) => {
+//     // Fetch the last donar_id from the database
+   
+//     client.query(
+//         `SELECT MAX(volunteer_id) AS max_volunteer_id FROM volunteer`,
+//         (err, result) => {
+//             if (!err) {
+//                 // Get the maximum donar_id
+//                 const maxVolunteerId= result.rows[0].max_volunteer_id || 0;
+//                 // Increment the max donar_id to generate the new donar_id
+//                 const newVolunteerId = maxVolunteerId + 1;
 
-    client.query(
-        `INSERT INTO volunteer_id( volunteer_id, volunteer_name, phone_num ,email, id_type, id_proof, address) VALUES ( '${volunteer_id}', '${username}', '${phone_num}', '${email}', '${id_type}', '${id_proof}', '${address}')`,
-        (err, result) => {
-            if (!err) {
-                console.log("r:",result);
-                return res.status(200).json({message: "Filled form successfully"}); 
-            } else {
-                console.log("e:",err);
-                return res.status(400).json({message: err.message});
-            }
-        }
-    );
-    
-    client.end;
-};
+//                 // Insert the new data with the new donar_id
+//                 client.query(
+//                     `INSERT INTO volunteer(volunteer_id, volunteer_name, phone_num ,email, address,id_type,id_proof) VALUES ( '${newVolunteerId}', '${username}', '${phone_num}', '${email}', '${address}', '${id_type}', '${id_proof}')`,
+//                     (err, result) => {
+//                         if (!err) {
+//                             console.log("Volunteered form filled Successfully");
+//                             return res.status(200).json({ message: "Volunteered form filled Successfully" });
+//                         } else {
+//                             console.log("Error:", err.message);
+//                             return res.status(400).json({ message: err.message });
+//                         }
+//                     }
+//                 );
+//             } else {
+//                 console.log("Error:", err.message);
+//                 return res.status(400).json({ message: err.message });
+//             }
+//         }
+//     );
+// };
+
+const volunteer = async (username, phone_num, email, address, id_type, id_proof, res) => {
+    try {
+      const result = await client.query(`SELECT MAX(volunteer_id) AS max_volunteer_id FROM volunteer`);
+      const maxVolunteerId = result.rows[0].max_volunteer_id || 0;
+      const newVolunteerId = maxVolunteerId + 1;
+  
+      const query = `
+        INSERT INTO volunteer(volunteer_id, volunteer_name, phone_num, email, address, id_type, id_proof)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `;
+  
+      const values = [newVolunteerId, username, phone_num, email, address, id_type, id_proof];
+  
+      await client.query(query, values);
+      console.log("Volunteered form filled Successfully");
+      return res.status(200).json({ message: "Volunteered form filled Successfully" });
+    } catch (err) {
+      console.log("Error:", err.message);
+      return res.status(400).json({ message: err.message });
+    }
+  };
+  
+
 
 module.exports = { signup, login , donate, getDonarData,receive,getNuOfRequests,volunteer};

@@ -4,25 +4,21 @@ const multer = require('multer'); // for handling image
 const { login, signup, donate, getDonarData, receive, getNuOfRequests,volunteer} = require("./service.js"); //db
 const client = require("./connections"); //db conn
 
+const { Client } = require('pg');
+
+
 const app = express(); //api
 
 
-// Configure Multer to handle file uploads
-const upload = multer({ dest: 'uploads/' });
-// const upload = multer({ dest: 'volunteer/' });
+// Multer setup
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.use(express.json());
 
 
 app.use(bodyParser.json()); //api
 
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080'); // Update to match your frontend URL
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     if (req.method === 'OPTIONS') {
-//         return res.sendStatus(200);
-//     }
-//     next();
-// });
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8080');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -32,19 +28,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-
-
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://192.168.125.165:8080'); // Update to match your frontend URL
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     if (req.method === 'OPTIONS') {
-//         return res.sendStatus(200);
-//     }
-//     next();
-// });
-
-
 
 app.listen(8040, () => {
     console.log("server is now listening at 8040 port");
@@ -172,37 +155,30 @@ app.get('/getNuOfRequests', async (req, res) => {
 
 
 // volunteer POST API
+// It is working
+
 app.post('/volunteer', upload.single('id_proof'), async (req, res) => {
+    console.log("inside API");
     try {
-
-    if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded' });
-    }
-    
-    //   const username = req.body.username;
-    //   const phone_num = req.body.phone_num;
-    //   const email = req.body.email;
-    //   const id_type = req.body.id_type;
-    //   const id_proof = req.file; // assuming you're using multer for file uploads
-    //   const address = req.body.address;
-    
-    //   console.log("in API:", username, phone_num, email, id_type, id_proof, address);
-
-    const { username, phone_num, email, id_type, address } = req.body;
-    const id_proof = req.file;
-    console.log("username : "  + req.body.username);
-    console.log("in API:", username, phone_num, email, id_type, id_proof, address); 
-
-      // Read the image file as a buffer
-      const id_proof_buffer = id_proof.buffer;
+    //   if (!req.file) {
+    //     return res.status(400).json({ message: 'No file uploaded' });
+    //   }
+    console.log(req.body.InputJson);
+    console.log(req.file);
+      const InputJson=  JSON.parse(req.body.InputJson);
+      
+      console.log(req.body.InputJson);
+      console.log("input json :",InputJson);
+      console.log(typeof(InputJson));
+      console.log("Received file:", req.file);
+       
+      const { user_name, phone_num, email, address, id_type } = InputJson;
+      const id_proof = req.file.buffer;
   
-      // Convert the buffer to a bytea format
-      const id_proof_bytea = `\\x${id_proof_buffer.toString('hex')}`;
+      console.log("Received data:", { user_name, phone_num, email, address, id_type, id_proof });
   
-      // database connection
-      // Call volunteer function from services
-      volunteer(username, phone_num, email, id_type, id_proof_bytea, address, res);
-  
+      // Call volunteer function
+      await volunteer(user_name, phone_num, email, address, id_type, id_proof, res);
     } catch (err) {
       console.log(err);
       res.status(400).json({ message: err.message });

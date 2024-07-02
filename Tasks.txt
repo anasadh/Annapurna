@@ -30,9 +30,19 @@ apis
 2.login api - done (post)
 3. donate api (post) - done 
 4. request api (post) - done 
+5. volunteer api (post) - {How to store images in database?} - done
 6. getDonateData api (get) - done 
 
+
 apis left
-5. volunteer api (post) - {How to store images in database?}
 7.getRequestData api (get) - create dropdown for status column "pending", "approve"
 8. get Volunteer api (get) 
+
+
+New tasks
+1. Home page -> If user is not logged in so while pressing on Donate, request , join button show pop up -please login or signup
+2.Correct the alignment of past donation table - DOnate page' = main
+3. login succes - redirect to home page  = main
+4. if not logged in then disable the submit button and show alert that please login
+5. Show no of volunteers on Volunteer page whose status is approved( add status key in volunteer table, initially deafult value is pending which will be set approve or rejected by admin)
+6. Contact us - mail setup

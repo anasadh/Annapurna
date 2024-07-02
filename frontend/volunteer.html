@@ -34,46 +34,110 @@
         messageContainer.style.display = "block";
     }
 
-    // Volunteer API integration
-    document.addEventListener('DOMContentLoaded', function() {
-    let form = document.querySelector('#volunteerForm form');
-    console.log("donate form" + form);
-    form.addEventListener('submit', handleSubmit);
 
-    async function handleSubmit(event) {
+
+/*
+      document.addEventListener('DOMContentLoaded', function() {
+      let form = document.querySelector('#volunteerForm');
+      console.log("form:",form);
+      form.addEventListener('submit', handleSubmit);
+
+      async function handleSubmit(event) {
         event.preventDefault();
+
         let form_data = new FormData(form);
-        let data = Object.fromEntries(form_data);
-        let form_data_json = JSON.stringify(data);
-        console.log("Form Data:", data);
-        console.log("Form Data:", form_data_json);
+        console.log("inside form");
+        // Create the JSON data object
+        let formDataObj = {
+          user_name: form.querySelector('input[name="user_name"]').value,
+          phone_num: form.querySelector('input[name="phone_num"]').value,
+          email: form.querySelector('input[name="email"]').value,
+          address: form.querySelector('input[name="address"]').value,
+          id_type: form.querySelector('input[name="id_type"]').value
+        };
+        let id_proof = form.querySelector('input[name="id_proof"]').value;
 
-        // try {
-        //     const response = await fetch('http://localhost:8040/volunteer', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: form_data_json
-        //     });
-        //     if (response.ok) {
-        //         const responseData = await response.json();
-        //         const message = responseData.message;
-        //         console.log("message:", message);
-        //         // Display the response message on the webpage
-        //         showMessage(message);
-        //     } else {
-        //         console.error("Failed to perform action:", response);
-        //         showMessage("Failed to submit donation. Please try again later.");
-        //     }
-        // } catch (error) {
-        //     console.error("Error submitting donation:", error);
-        //     showMessage("Please try again later.");
-        // }
-    }
-});
+        // Append the JSON data to FormData as a string
+        form_data.append('InputJson', JSON.stringify(formDataObj));
+        form_data.append('id_proof',id_proof);
+        console.log("input json:",formDataObj);
+        console.log("id_proof:",id_proof);
+        // console.log("Form Data:", Array.from(form_data.entries()));
 
+        try {
+          const response = await fetch('http://localhost:8040/volunteer', {
+            method: 'POST',
+            body: form_data
+          });
 
+          if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+            const message = responseData.message;
+            showMessage(message);
+          } else {
+            console.error("Failed to perform action:", response);
+            showMessage("Failed to submit Volunteer. Please try again later.");
+          }
+        } catch (error) {
+          console.error("Error submitting Volunteer:", error);
+          showMessage("Please try again later.");
+        }
+      }
+
+      function showMessage(message) {
+        const messageContainer = document.getElementById('messageContainer');
+        messageContainer.style.display = 'block';
+        messageContainer.innerText = message;
+      }
+    });
+*/
+
+   // Integration of frontend to backend API while filling the form
+   document.addEventListener('DOMContentLoaded', function() {
+            let form = document.querySelector('#volunteerForm form');
+            console.log("form:",form);
+            form.addEventListener('submit', handleSubmit);
+
+            async function handleSubmit(event) {
+                event.preventDefault();
+
+                let form_data = new FormData(form);
+                console.log("form_data:",form_data);
+
+                // Create the JSON data object
+                let formDataObj = {
+                    user_name: form.querySelector('input[name="username"]').value,
+                    phone_num: form.querySelector('input[name="phone_num"]').value,
+                    email: form.querySelector('input[name="email"]').value,
+                    address: form.querySelector('textarea[name="address"]').value,
+                    id_type: form.querySelector('select[name="id_type"]').value
+                };
+
+                // Append the JSON data to FormData as a string
+                form_data.append('InputJson', JSON.stringify(formDataObj));
+                console.log("form data:",formDataObj);
+                
+                try {
+                    const response = await fetch('http://localhost:8040/volunteer', {
+                        method: 'POST',
+                        body: form_data
+                    });
+
+                    if (response.ok) {
+                        const responseData = await response.json();
+                        const message = responseData.message;
+                        showMessage(message);
+                    } else {
+                        console.error("Failed to perform action:", response);
+                        showMessage("Failed to submit Volunteer. Please try again later.");
+                    }
+                } catch (error) {
+                    console.error("Error submitting Volunteer:", error);
+                    showMessage("Please try again later.");
+                }
+            }
+        });
 </script>
 
 </head>
@@ -122,14 +186,14 @@
                             <br>
                             <select name="id_type" id="id_type" required>
                                 <option value="">--Select an Id type--</option>
-                                <option value="visa">Aadhar Card</option>
-                                <option value="rupay">PAN Card</option>
-                                <option value="mastercard">Driving Licence</option>
+                                <option value="Aadhar Card">Aadhar Card</option>
+                                <option value="PAN Card">PAN Card</option>
+                                <option value="Driving Licence">Driving Licence</option>
                             </select>
                         </p>
                         <br>
                         <p style="color: black; font-weight:400;" >ID Proof</p>
-                        <input type="file" name="id_proof" id="id_proof" placeholder="Enter Selected I'd Number">
+                        <input type="file" name="id_proof" id="id_proof" accept=".jpg,.jpeg,.png" placeholder="Enter Selected I'd Number">
                         <p style="color: black; font-weight:400;" >Address</p>
                         <textarea name="address" id="address" rows="3" placeholder="Enter Your Address"></textarea>
                         <button type="submit" class="hero-btn red-btn">SUBMIT</button>
