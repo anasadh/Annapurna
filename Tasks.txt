@@ -14,7 +14,7 @@
 
 //admin functionality
 9. create Admin tab in navbar which will show only when username ="admin" login
-
+ 
 getApi for all
   -> admin tab has 3 tables
    1st table : Donate table
@@ -26,8 +26,8 @@ getApi for all
 
 
 apis 
-1.sign up api -done (post)
-2.login api - done (post)
+1.sign up api (post) -done 
+2.login api (post) - done 
 3. donate api (post) - done 
 4. request api (post) - done 
 5. volunteer api (post) - {How to store images in database?} - done
