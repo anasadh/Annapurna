@@ -59,49 +59,55 @@ ANNAPURNA is a food waste management platform aimed at reducing food waste by co
 
 ## **Screenshots**
 
-1. **Homepage**:
-   ![Homepage](screenshots/homepage.png)
-
-2. **Donor Signup**:
-   ![Donor Signup](screenshots/donor-signup.png)
-
-3. **Food Donation Form**:
-   ![Food Donation Form](screenshots/donate-form.png)
-
-4. **NGO Dashboard**:
-   ![NGO Dashboard](screenshots/ngo-dashboard.png)
-
-5. **Volunteer Section**:
-   ![Volunteer Section](screenshots/volunteer-section.png)
-
 <table>
   <tr>
     <td>
       <strong>Homepage</strong><br>
-      <img src="screenshots/homepage.png" width="400"/>
+      <img src="screenshots/1.png" width="400"/>
     </td>
     <td>
       <strong>Donor Signup</strong><br>
-      <img src="screenshots/donor-signup.png" width="400"/>
+      <img src="screenshots/2.png" width="400"/>
     </td>
   </tr>
   <tr>
     <td>
       <strong>Food Donation Form</strong><br>
-      <img src="screenshots/donate-form.png" width="400"/>
+      <img src="screenshots/3.png" width="400"/>
     </td>
     <td>
       <strong>NGO Dashboard</strong><br>
-      <img src="screenshots/ngo-dashboard.png" width="400"/>
+      <img src="screenshots/4.png" width="400"/>
     </td>
   </tr>
   <tr>
     <td>
       <strong>Volunteer Section</strong><br>
-      <img src="screenshots/volunteer-section.png" width="400"/>
+      <img src="screenshots/5.png" width="400"/>
     </td>
     <td>
-      <!-- You can leave this empty or add another image -->
+       <strong>Volunteer Section</strong><br>
+      <img src="screenshots/6.png" width="400"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Volunteer Section</strong><br>
+      <img src="screenshots/7.png" width="400"/>
+    </td>
+    <td>
+       <strong>Volunteer Section</strong><br>
+      <img src="screenshots/8.png" width="400"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Volunteer Section</strong><br>
+      <img src="screenshots/9.png" width="400"/>
+    </td>
+    <td>
+       <strong>Volunteer Section</strong><br>
+      <img src="screenshots/10.png" width="400"/>
     </td>
   </tr>
 </table>
