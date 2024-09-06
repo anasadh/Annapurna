@@ -10,9 +10,8 @@ ANNAPURNA is a platform designed to connect food donors with NGOs to reduce food
 3. [Technology Stack](#technology-stack)
 4. [Benefits](#benefits)
 5. [Screenshots](#screenshots)
-6. [API Endpoints](#api-endpoints)
-7. [Installation & Running Locally](#installation--running-locally)
-8. [Contributors](#contributors)
+6. [Installation & Running Locally](#installation--running-locally)
+7. [Contributor](#contributor)
 
 ---
 
@@ -115,16 +114,14 @@ npm install -g live-server
 ```bash
 live-server frontend/
 ```
-
-5. **Access the Application**
-   
+6. **Access the Application**
 Open your browser and go to http://localhost:8040.
 
-6. **Testing the API**
+7. **Testing the API**
 To test the API endpoints, I used Thunder Client, we can also use Postman for testing the APIs endpoint.
 
-**Contributor:**
+---
+
+## **Contributor:**
 ***Anamika Sadh***
-
-
 
