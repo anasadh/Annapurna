@@ -66,13 +66,13 @@ ANNAPURNA is a food waste management platform aimed at reducing food waste by co
       <img src="screenshots/1.png" width="400"/>
     </td>
     <td>
-      <strong>Donor Signup</strong><br>
+      <strong>Features</strong><br>
       <img src="screenshots/2.png" width="400"/>
     </td>
   </tr>
   <tr>
     <td>
-      <strong>Food Donation Form</strong><br>
+      <strong>Donars Section</strong><br>
       <img src="screenshots/3.png" width="400"/>
     </td>
     <td>
@@ -86,27 +86,37 @@ ANNAPURNA is a food waste management platform aimed at reducing food waste by co
       <img src="screenshots/5.png" width="400"/>
     </td>
     <td>
-       <strong>Volunteer Section</strong><br>
+       <strong>Contact Us Section</strong><br>
       <img src="screenshots/6.png" width="400"/>
     </td>
   </tr>
   <tr>
     <td>
-      <strong>Volunteer Section</strong><br>
+      <strong>Sign Up page</strong><br>
+      <img src="screenshots/11.png" width="400"/>
+    </td>
+    <td>
+       <strong>Sign In page</strong><br>
+      <img src="screenshots/12.png" width="400"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Donar database table</strong><br>
       <img src="screenshots/7.png" width="400"/>
     </td>
     <td>
-       <strong>Volunteer Section</strong><br>
+       <strong>Receiver database table</strong><br>
       <img src="screenshots/8.png" width="400"/>
     </td>
   </tr>
   <tr>
     <td>
-      <strong>Volunteer Section</strong><br>
+      <strong>Volunteer database table</strong><br>
       <img src="screenshots/9.png" width="400"/>
     </td>
     <td>
-       <strong>Volunteer Section</strong><br>
+       <strong>Users database table</strong><br>
       <img src="screenshots/10.png" width="400"/>
     </td>
   </tr>
